@@ -157,11 +157,18 @@ export const CollectorDashboard: React.FC = () => {
                     <MapPin className="w-3.5 h-3.5 text-slate-400" />
                     Pickup: {req.batch?.pickup_address}
                   </p>
+
+                  {/* Prominent Note from Uploader */}
+                  {req.batch?.notes && (
+                    <div className="p-3 bg-amber-50/80 border border-amber-200/80 rounded-xl text-xs text-amber-900 mt-2">
+                      <strong className="text-amber-800">💬 Note from Uploader:</strong> "{req.batch.notes}"
+                    </div>
+                  )}
                 </div>
 
                 <button
                   onClick={() => handleAcceptAssignment(req.id)}
-                  className="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs shadow-md shadow-sky-600/20 transition-all self-end md:self-center"
+                  className="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs shadow-md shadow-sky-600/20 transition-all self-end md:self-center shrink-0"
                 >
                   Accept Pickup Job
                 </button>
@@ -183,14 +190,23 @@ export const CollectorDashboard: React.FC = () => {
                 className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4"
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-base font-bold text-slate-900">{batch.title}</h3>
-                      <StatusBadge status={batch.status} size="sm" />
+                  <div className="flex items-center gap-3">
+                    {batch.image_url && (
+                      <img
+                        src={batch.image_url}
+                        alt={batch.title}
+                        className="w-14 h-14 rounded-xl object-cover border border-slate-200"
+                      />
+                    )}
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-base font-bold text-slate-900">{batch.title}</h3>
+                        <StatusBadge status={batch.status} size="sm" />
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        {batch.quantity} {batch.unit} • {batch.material_category.replace('_', ' ')}
+                      </p>
                     </div>
-                    <p className="text-xs text-slate-500 mt-1">
-                      {batch.quantity} {batch.unit} • {batch.material_category.replace('_', ' ')}
-                    </p>
                   </div>
 
                   <Link
@@ -200,6 +216,12 @@ export const CollectorDashboard: React.FC = () => {
                     View Timeline <ArrowRight className="w-3 h-3" />
                   </Link>
                 </div>
+
+                {batch.notes && (
+                  <div className="p-3 bg-amber-50/80 border border-amber-200/80 rounded-xl text-xs text-amber-900">
+                    <strong className="text-amber-800">💬 Note from Uploader:</strong> "{batch.notes}"
+                  </div>
+                )}
 
                 {/* Workflow Action Controls */}
                 <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
